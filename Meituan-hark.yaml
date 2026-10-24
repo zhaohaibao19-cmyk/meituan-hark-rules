@@ -1,0 +1,43 @@
+name: 美团去广告（Hark）
+description: 拦截美团 App / 美团外卖社区规则已标记的广告接口与广告素材路径；不封禁整个图片域名以降低误伤。HTTPS 重写需在 Hark/Egern 开启 MITM 并信任证书。
+author: Hark 改写（参考 ihxperfect/loon-plugin、BlueGrave/Surge）
+
+# 规则参考：
+# https://github.com/ihxperfect/loon-plugin/blob/main/AdBlock.plugin
+# https://github.com/BlueGrave/Surge/blob/master/Module/WhiteList.sgmodule
+
+rules:
+  - domain:
+      match: portal-portm.meituan.com
+      policy: REJECT
+
+url_rewrites:
+  # 美团外卖开屏 / 状态广告接口
+  - match: "^https?:\\/\\/wmapi\\.meituan\\.com\\/api\\/v\\d+\\/loadInfo\\?"
+    location: "http://reject-dict/"
+  - match: "^https?:\\/\\/wmapi\\.meituan\\.com\\/api\\/v\\d+\\/startpicture"
+    location: "http://reject-dict/"
+  - match: "^https?:\\/\\/www\\.meituan\\.com\\/api\\/v\\d+\\/appstatus\\?ad"
+    location: "http://reject-dict/"
+  - match: "^https?:\\/\\/peisongapi\\.meituan\\.com\\/client\\/getInitiateImage"
+    location: "http://reject-dict/"
+
+  # 仅拦截社区规则标记的广告素材目录；保留其余图片资源
+  - match: "^https?:\\/\\/img\\.meituan\\.net\\/(adunion|display|dpmobile|midas)\\/\\w+\\.(gif|jpg|jpg\\.webp)$"
+    location: "http://reject-200/"
+  - match: "^https?:\\/\\/img\\.meituan\\.net\\/(bizad|brandCpt)\\/\\w+\\.(png|jpg)$"
+    location: "http://reject-200/"
+  - match: "^https?:\\/\\/p\\d\\.meituan\\.net\\/(bizad|wmbanner)\\/\\w+\\.jpg"
+    location: "http://reject-200/"
+  - match: "^https?:\\/\\/(s3plus|flowplus)\\.meituan\\.net\\/v\\d\\/\\w+\\/linglong\\/\\w+\\.(gif|jpg|mp4)"
+    location: "http://reject-200/"
+
+mitm:
+  hostnames:
+    - wmapi.meituan.com
+    - www.meituan.com
+    - peisongapi.meituan.com
+    - img.meituan.net
+    - p*.meituan.net
+    - s3plus.meituan.net
+    - flowplus.meituan.net
