@@ -1,0 +1,17 @@
+name: "腾讯文档去广告"
+description: "移除腾讯文档开屏广告、首页横幅推广；精确匹配两个 GetAds 接口，兼容带或不带查询参数的请求。HTTPS 重写需开启 MITM 并信任对应证书。"
+author: "可莉（Egern 原生版由 Hark 改写）"
+icon: "https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/TXDocs.png"
+# 基于原规则优化：https://raw.githubusercontent.com/zhaohantao1360-hash/Hark/main/TXDocs_remove_ads-hark.yaml
+# 原规则注明来源：可莉 TXDocs_remove_ads.lpx（2026-10-02 13:57:49）
+url_rewrites:
+  # 精确匹配 GetAds 接口路径；查询参数可有可无，避免因是否携带参数而漏拦
+  - match: "(?i)^https://tianshu\\.qq\\.com/open/ts_access/GetAds(?:\\?.*)?$"
+    location: "http://reject-dict/"
+  - match: "(?i)^https://h5\\.qzone\\.qq\\.com/p/adboss/api/json/ts_access/GetAds(?:\\?.*)?$"
+    location: "http://reject-dict/"
+mitm:
+  hostnames:
+    includes:
+      - "tianshu.qq.com"
+      - "h5.qzone.qq.com"

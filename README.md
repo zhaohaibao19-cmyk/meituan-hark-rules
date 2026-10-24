@@ -12,3 +12,7 @@
 - [BlueGrave/Surge：WhiteList.sgmodule](https://github.com/BlueGrave/Surge/blob/master/Module/WhiteList.sgmodule)
 
 社区规则可能随 App 更新而失效，请反馈可复现的误拦截或漏拦截路径。
+
+## 腾讯文档
+
+腾讯文档规则单独保存在 [`TencentDocs-hark.yaml`](./TencentDocs-hark.yaml)，可单独导入 Hark。规则精确匹配两个 `GetAds` 接口，并兼容带或不带查询参数的请求；HTTPS URL 重写需要开启 MITM 并信任对应证书。
