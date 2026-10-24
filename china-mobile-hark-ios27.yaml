@@ -1,5 +1,6 @@
 name: "中国移动（Hark iOS 27 风格）"
 description: "桌面/锁屏小组件：剩余话费、通用流量、其他流量、语音三环与用量洞察；可调 Liquid Glass 着色强度。先在「中国移动」App 用短信验证码登录一次自动捕获参数"
+icon: "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/ce/b7/2c/ceb72c6e-21c3-0c8b-a960-2fb8a547279f/AppIcon-0-0-1x_U007epad-0-1-0-sRGB-85-220.png/512x512bb.jpg"
 author: "Hark（iOS 27 Liquid Glass 风格改版）"
 
 # Egern 模块设置页自动生成的开关/输入框（模块级 env，优先级最高）
