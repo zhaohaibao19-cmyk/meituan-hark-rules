@@ -76,4 +76,4 @@ scriptings:
         CM_CAPTURE_NOTIFY: "false"   # true = 每次抓到都通知；默认只在首次/过期恢复时通知
 
 widgets:
-  - name: "china-mobile-hark-ios"
+  - name: "china-mobile-hark-ios27"
