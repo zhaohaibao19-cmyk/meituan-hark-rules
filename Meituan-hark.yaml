@@ -1,10 +1,12 @@
 name: 美团去广告（Hark）
-description: 拦截美团 App / 美团外卖社区规则已标记的广告接口与广告素材路径；不封禁整个图片域名以降低误伤。HTTPS 重写需在 Hark/Egern 开启 MITM 并信任证书。
-author: Hark 改写（参考 ihxperfect/loon-plugin、BlueGrave/Surge）
+description: 拦截美团 App / 美团外卖广告接口与广告素材；响应脚本还会隐藏指定推荐、入口、搜索词和技能卡。HTTPS 改写需开启 MITM 并信任证书。
+author: Hark ctx 适配（参考 ihxperfect/loon-plugin、BlueGrave/Surge、ZenmoFeiShi/Qx）
 
 # 规则参考：
 # https://github.com/ihxperfect/loon-plugin/blob/main/AdBlock.plugin
 # https://github.com/BlueGrave/Surge/blob/master/Module/WhiteList.sgmodule
+# https://raw.githubusercontent.com/muktsoen/SurgeRules/main/MT.sgmodule
+# 上游响应逻辑：https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/MT.js
 
 rules:
   - domain:
@@ -32,12 +34,38 @@ url_rewrites:
   - match: "^https?:\\/\\/(s3plus|flowplus)\\.meituan\\.net\\/v\\d\\/\\w+\\/linglong\\/\\w+\\.(gif|jpg|mp4)"
     location: "http://reject-200/"
 
+# Hark/Egern ctx 响应脚本，覆盖上游的 8 个精确接口；解析失败时原样放行。
+scriptings:
+  - http_response:
+      name: 美团去广告（Hark）
+      match: '^https?://(?:apimobile\.meituan\.com/(?:aggroup/indexTab|group/v1/deal/searchpage/defaultword|group/v1/deal/searchpage/hotword/city/divide/hotrecommend/)|feedguess\.meituan\.com/lycoris/scene/(?:gwc_feed1_2265|personalcenter_2154)|mt-personalcenter\.meituan\.com/usercenter/display|assistify\.meituan\.com/assistant/getAppClientHornConfig|mop\.meituan\.com/(?:mop/entry/shoppingCartEntry|api/entryModule/startupPicture))(?:[/?#]|$)'
+      script_url: "https://raw.githubusercontent.com/zhaohaibao19-cmyk/meituan-hark-rules/main/Meituan-hark.js"
+      body_required: true
+      max_size: 2097152
+      timeout: 15
+
+# 仅覆盖现有 URL 重写及响应脚本实际用到的主机；p0-p9 对应现存 p\d 素材规则。
 mitm:
   hostnames:
-    - wmapi.meituan.com
-    - www.meituan.com
-    - peisongapi.meituan.com
-    - img.meituan.net
-    - p*.meituan.net
-    - s3plus.meituan.net
-    - flowplus.meituan.net
+    includes:
+      - wmapi.meituan.com
+      - www.meituan.com
+      - peisongapi.meituan.com
+      - img.meituan.net
+      - p0.meituan.net
+      - p1.meituan.net
+      - p2.meituan.net
+      - p3.meituan.net
+      - p4.meituan.net
+      - p5.meituan.net
+      - p6.meituan.net
+      - p7.meituan.net
+      - p8.meituan.net
+      - p9.meituan.net
+      - s3plus.meituan.net
+      - flowplus.meituan.net
+      - apimobile.meituan.com
+      - feedguess.meituan.com
+      - mt-personalcenter.meituan.com
+      - assistify.meituan.com
+      - mop.meituan.com
