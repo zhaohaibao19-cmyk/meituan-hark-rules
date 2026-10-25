@@ -50,7 +50,7 @@ scriptings:
       name: "中国移动保活-HarkiOS27风格"
       cron: "*/20 * * * *"
       script_url: "https://raw.githubusercontent.com/zhaohaibao19-cmyk/meituan-hark-rules/main/china-mobile-hark-ios27.js"
-      timeout: 30
+      timeout: 90
       env:
         CM_KEEPALIVE: "true"
         CM_PHONENUMBER: ""           # 与上面保持一致（留空则用小组件已保存的号码）
